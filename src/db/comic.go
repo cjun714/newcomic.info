@@ -14,6 +14,12 @@ func GetComicInfoList(offset, limit int) ([]model.ComicInfo, error) {
 	return list, e
 }
 
+func GetComicCount() (int, error) {
+	count := 0
+	e := dbs.Model(&model.ComicInfo{}).Count(&count).Error
+	return count, e
+}
+
 func AddFavorite(id int) error {
 	info := &model.ComicInfo{ID: id}
 	count := 0

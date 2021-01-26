@@ -11,16 +11,35 @@ import (
 )
 
 func GetComicInfos(c echo.Context) error {
-	list, e := db.GetComicInfoList(1, 20)
+	pageSize := 20
+
+	page := 0
+	var e error
+
+	pageStr := c.Param("page")
+	if pageStr != "" {
+		if page, e = strconv.Atoi(pageStr); e != nil {
+			return c.JSON(http.StatusBadRequest, nil)
+		}
+	}
+
+	if page < 1 {
+		return c.JSON(http.StatusBadRequest, nil)
+	}
+
+	list, e := db.GetComicInfoList((page-1)*pageSize, pageSize)
+	if e != nil {
+		return c.JSON(http.StatusInternalServerError, nil)
+	}
+	count, e := db.GetComicCount()
 	if e != nil {
 		return c.JSON(http.StatusInternalServerError, nil)
 	}
 
-	return c.JSON(http.StatusOK, list)
+	return c.JSON(http.StatusOK, map[string]interface{}{"count": count, "data": list})
 }
 
 func GetComicDetail(c echo.Context) error {
-	log.I("sdfsdsdf")
 	id, e := strconv.Atoi(c.Param("id"))
 	if e != nil {
 		return c.JSON(http.StatusBadRequest, nil)

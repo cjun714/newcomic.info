@@ -1,22 +1,22 @@
+fetch('/api/comics/1')
+  .then(response => response.json())
+  .then(data => {
+    v.$refs.list.comics = data.data
+    v.$refs.index.pageCount = data.count / 20
+  })
+  .catch(error => console.log(error));
+
 tmpl = `
   <ul id="array-rendering">
     <li v-for="info in comics">{{ info.name }}</li>
   </ul>
   `;
 Vue.component('comic-list', {
-  // new Vue({
   template: tmpl,
   data: function () {
     return {
       comics: [],
     }
-  },
-  mounted: function () {
-    var self = this;
-    fetch('/api/comics')
-      .then(response => response.json())
-      .then(data => self.comics = data)
-      .catch(error => console.log(error));
   },
   methods: {
     go: (targetUrl => window.location.href = targetUrl)
@@ -24,14 +24,28 @@ Vue.component('comic-list', {
 })
 
 Vue.component('paginate', VuejsPaginate)
-Vue.component('paging', {
+Vue.component('index', {
   template: `
-    <paginate :pageCount="2000" :page-range="10" :margin-pages="1" :containerClass="'pagination'"
+    <paginate :pageCount="pageCount" :page-range="10" :margin-pages="1" :containerClass="'pagination'"
       :clickHandler="clickCallback"></paginate>
   `,
+  data: function () {
+    return {
+      pageCount: 0
+    }
+  },
   methods: {
     clickCallback: function (page) {
-      console.log(page)
+      url = '/api/comics/'
+      fetch(url + page)
+        .then(response => response.json())
+        .then(data => {
+          v.$refs.list.comics = data.data
+          v.$refs.index.pageCount = data.count / 20
+        })
+        .catch(error => console.log(error));
     }
   }
 })
+
+function clickCallback(page) {}

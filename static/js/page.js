@@ -1,3 +1,3 @@
-new Vue({
-  el: '#main-page'
+v = new Vue({
+  el: '#main'
 })

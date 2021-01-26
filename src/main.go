@@ -25,7 +25,7 @@ func main() {
 
 	ec.Static("/", "./static/")
 
-	g.GET("/comics", api.GetComicInfos)
+	g.GET("/comics/:page", api.GetComicInfos)
 	g.GET("/comic/:id", api.GetComicDetail)
 	g.POST("/comic/favorite/:id", api.AddFavorite)
 	g.DELETE("/comic/favorite/:id", api.DeleteFavorite)
