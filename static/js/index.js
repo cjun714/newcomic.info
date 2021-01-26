@@ -3,7 +3,6 @@ tmpl = `
     <li v-for="info in comics">{{ info.name }}</li>
   </ul>
   `;
-
 Vue.component('comic-list', {
   // new Vue({
   template: tmpl,
@@ -21,5 +20,18 @@ Vue.component('comic-list', {
   },
   methods: {
     go: (targetUrl => window.location.href = targetUrl)
+  }
+})
+
+Vue.component('paginate', VuejsPaginate)
+Vue.component('paging', {
+  template: `
+    <paginate :pageCount="2000" :page-range="10" :margin-pages="1" :containerClass="'pagination'"
+      :clickHandler="clickCallback"></paginate>
+  `,
+  methods: {
+    clickCallback: function (page) {
+      console.log(page)
+    }
   }
 })
