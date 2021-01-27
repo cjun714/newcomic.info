@@ -11,7 +11,7 @@ import (
 )
 
 func GetComicInfos(c echo.Context) error {
-	pageSize := 20
+	pageSize := 40
 
 	page := 0
 	var e error

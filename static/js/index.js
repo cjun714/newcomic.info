@@ -1,4 +1,5 @@
 currentPage = 1
+pageSize = 40
 
 idx = getParameters()["page"]
 if (idx != null) {
@@ -9,14 +10,14 @@ fetch('/api/comics/' + String(currentPage))
   .then(response => response.json())
   .then(data => {
     v.$refs.list.comics = data.data
-    v.$refs.index.pageCount = Math.round(data.count / 20)
+    v.$refs.index.pageCount = Math.round(data.count / 40)
   })
   .catch(error => console.log(error));
 
 Vue.component('comic-list', {
   template: `
-  <ul id="array-rendering">
-    <li v-for="info in comics">{{ info.name }}</li>
+  <ul class="comic-list">
+    <li v-for="info in comics" class="comic">{{ info.name }}</li>
   </ul>
   `,
   data: function () {
@@ -29,8 +30,8 @@ Vue.component('comic-list', {
   }
 })
 
-
 Vue.component('paginate', VuejsPaginate)
+
 Vue.component('index', {
   template: `
     <paginate v-model="page" :pageCount="pageCount" :page-range="10" :margin-pages="1" :containerClass="'pagination'" :clickHandler="clickCallback"></paginate>
@@ -46,19 +47,10 @@ Vue.component('index', {
   },
   methods: {
     clickCallback: function (p) {
-      // url = '/api/comics/'
       window.location.href = '/page/index.html' + '?page=' + p
-      // fetch(url + page)
-      //   .then(response => response.json())
-      //   .then(data => {
-      //     v.$refs.list.comics = data.data
-      //     v.$refs.index.pageCount = data.count / 20
-      //   })
-      //   .catch(error => console.log(error));
     }
   }
 })
-
 
 function getParameters() {
   var vars = {};
