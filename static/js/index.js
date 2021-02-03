@@ -10,7 +10,8 @@ fetch('/api/comics/' + String(currentPage))
   .then(response => response.json())
   .then(data => {
     v.$refs.list.comics = data.data
-    v.$refs.index.pageCount = Math.round(data.count / 40)
+    pageCount = Math.round(data.count / 40)
+    v.$refs.index.pageCount = pageCount
   })
   .catch(error => console.log(error));
 
@@ -21,7 +22,7 @@ Vue.component('comic-list', {
       <div class="overlay">
         <h3>{{ info.name }}</h3>
         <ul>
-          <li class="size">{{ info.size }}M</li>
+          <li class="size">{{ info.size }} M</li>
           <li>Size: {{ info.size }} Mb</li>
           <li>Pages: {{ info.pages }}</li>
           <li>Year: {{ info.year }}</li>
@@ -69,4 +70,21 @@ function getParameters() {
     vars[key] = value;
   });
   return vars;
+}
+
+function handleKeydown(e) {
+  switch (e.keyCode) {
+    case 37: // <-
+      if (currentPage == 1) {
+        return
+      }
+      window.location.href = '/page/index.html' + '?page=' + String(currentPage - 1)
+      break
+    case 39: // ->
+      if (currentPage == pageCount) {
+        return
+      }
+      window.location.href = '/page/index.html' + '?page=' + String(currentPage + 1)
+      break;
+  }
 }

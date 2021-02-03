@@ -1,3 +1,9 @@
 v = new Vue({
-  el: '#main'
+  el: '#main',
+  beforeMount() {
+    window.addEventListener('keydown', handleKeydown, null);
+  },
+  beforeDestroy() {
+    window.removeEventListener('keydown', handleKeydown);
+  }
 })
