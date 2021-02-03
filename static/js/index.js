@@ -17,12 +17,15 @@ fetch('/api/comics/' + String(currentPage))
 Vue.component('comic-list', {
   template: `
   <ul class="comic-list">
-    <li v-for="info in comics" class="comic" :style="{backgroundImage:'url(/image/'+info.cover+')'}">
+    <li class="comic" v-for="info in comics" class="comic" :style="{backgroundImage:'url(/image/'+info.cover+')'}">
       <div class="overlay">
-        {{ info.name }}
-        <p>Size: {{ info.size }} Mb
-        <p>Pages: {{ info.pages }}
-        <p>Year: {{ info.year }}</p>
+        <h3>{{ info.name }}</h3>
+        <ul>
+          <li class="size">{{ info.size }}M</li>
+          <li>Size: {{ info.size }} Mb</li>
+          <li>Pages: {{ info.pages }}</li>
+          <li>Year: {{ info.year }}</li>
+        </ul>
         <a :href = "'https://florenfile.com/' + info.download_url" title = "download" > Download </a>
       </div>
     </li>

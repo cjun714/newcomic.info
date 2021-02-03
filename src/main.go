@@ -20,10 +20,14 @@ func main() {
 	}
 	defer db.Close()
 
+	dataPath := os.Args[1]
+	imagePath := dataPath + "/image"
+
 	ec := echo.New()
 	g := ec.Group("/api")
 
 	ec.Static("/", "./static/")
+	ec.Static("/image", imagePath)
 
 	g.GET("/comics/:page", api.GetComicInfos)
 	g.GET("/comic/:id", api.GetComicDetail)
