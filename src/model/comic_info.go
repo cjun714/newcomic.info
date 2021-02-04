@@ -7,7 +7,7 @@ type ComicInfo struct {
 	URL         string `json:"url"`
 	DownloadURL string `json:"download_url"`
 	Tags        string `json:"tags"`
-	Publisher   string `json:"Publisher"`
+	Publisher   string `json:"publisher"`
 	Year        int    `json:"year"`
 	Pages       int    `json:"pages"`
 	Size        int    `json:"size"`

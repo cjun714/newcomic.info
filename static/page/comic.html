@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <script src="/js/3rd/vue@2.6.12.js"></script>
+  <link rel="stylesheet" href="/css/comic.css">
+
+</head>
+
+<body>
+  <div class='page-wrapper' id='main'>
+    <comic></comic>
+  </div>
+</body>
+
+
+<div class='btn'>
+  this looks like a button
+</div>
+
+</html>
+
+<script>
+  tmp = `
+  <div>
+    <h2>{{comic.name}}</h2>
+    <img class="comic-cover" :src="'/image/'+comic.cover">
+    <ul>
+      <li>Publisher: {{comic.publisher}}</li>
+      <li>Year: {{comic.year}}</li>
+      <li>Pages: {{comic.pages}}</li>
+      <li>Size: {{comic.size}}</li>
+    </ul>
+    <a class="link" :href="'https://florenfile.com/'+comic.download_url">Download</a>
+  </div>
+  `
+  Vue.component('comic', {
+    template: tmp,
+    data: function() {
+      return {
+        comic: '',
+      }
+    },
+    created: function() {
+      id = 1
+      idx = getParameters()["id"]
+      if (idx != null) {
+        id = Number(idx)
+      }
+
+      fetch('/api/comic/' + String(id))
+        .then(response => response.json())
+        .then(data => (this.comic = data))
+        .catch(err => console.log(err));
+    },
+    methods: {
+      go: (targetUrl => window.location.href = targetUrl)
+    }
+  })
+
+  function handleKeydown(e) {
+    switch (e.keyCode) {
+      case 37: // <-
+        break
+      case 39: // ->
+        break;
+    }
+  }
+
+  function getParameters() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
+      vars[key] = value;
+    });
+    return vars;
+  }
+</script>
+<script src="/js/page.js"></script>

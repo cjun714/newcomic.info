@@ -19,15 +19,15 @@ Vue.component('comic-list', {
   template: `
   <ul class="comic-list">
     <li class="comic" v-for="info in comics" class="comic" :style="{backgroundImage:'url(/image/'+info.cover+')'}">
-      <div class="overlay">
-        <h3>{{ info.name }}</h3>
+      <div class="overlay" @click="window.location.href = '/page/comic.html?id='+info.id">
+        <h3 @click.stop="">{{ info.name }}</h3>
         <ul>
           <li class="size">{{ info.size }} M</li>
           <li>Size: {{ info.size }} Mb</li>
           <li>Pages: {{ info.pages }}</li>
           <li>Year: {{ info.year }}</li>
         </ul>
-        <a :href = "'https://florenfile.com/' + info.download_url" title = "download" > Download </a>
+        <div class="download"><a :href = "'https://florenfile.com/' + info.download_url" title = "download" > Download </a></div>
       </div>
     </li>
   </ul>
