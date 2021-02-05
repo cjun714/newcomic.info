@@ -23,9 +23,9 @@ Vue.component('comic-list', {
         <h3 @click.stop="">{{ info.name }}</h3>
         <ul>
           <li class="size">{{ info.size }} M</li>
-          <li>Size: {{ info.size }} Mb</li>
-          <li>Pages: {{ info.pages }}</li>
-          <li>Year: {{ info.year }}</li>
+          <li>{{ info.size }} Mb</li>
+          <li>{{ info.pages }} P</li>
+          <li>{{ info.year }}</li>
         </ul>
         <div class="download"><a :href = "'https://florenfile.com/' + info.download_url" title = "download" > Download </a></div>
       </div>

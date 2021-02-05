@@ -54,7 +54,8 @@
 }
 
 .overlay:hover {
-  font-size: 11px;
+  font-size: 10px;
+  font-weight: bold;
   background: unset;
   background-color: rgb(0, 0, 0, 0.6);
   opacity: 1;
@@ -84,20 +85,26 @@
 
 .overlay ul {
   padding: 0;
+  padding-left: 40px;
   margin: 0;
+  margin-top: 5px;
 }
 
 .overlay li {
   padding-left: 4px;
-  margin: 0;
+  padding-right: 5px;
   padding-top: 2px;
   margin: 0;
-  float: none;
+  border-right: 1px solid #ffffff;
   display: none;
 }
 
+.overlay li:last-child {
+  border-right: none;
+}
+
 .overlay:hover li {
-  display: block;
+  display: inline-table;
 }
 
 .overlay .size {
@@ -121,8 +128,8 @@
 .overlay .download {
   position: absolute;
   left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  top: 100%;
+  transform: translate(-50%, -100%);
   text-decoration: none;
   color: #ffffff;
   font-size: 25px;
