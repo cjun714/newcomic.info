@@ -80,3 +80,29 @@ func DeleteFavorite(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, nil)
 }
+
+func AddDownload(c echo.Context) error {
+	id, e := strconv.Atoi(c.Param("id"))
+	if e != nil {
+		return c.JSON(http.StatusBadRequest, nil)
+	}
+
+	if e := db.AddDownload(id); e != nil {
+		return c.JSON(http.StatusInternalServerError, nil)
+	}
+
+	return c.JSON(http.StatusOK, nil)
+}
+
+func DeleteDownload(c echo.Context) error {
+	id, e := strconv.Atoi(c.Param("id"))
+	if e != nil {
+		return c.JSON(http.StatusBadRequest, nil)
+	}
+
+	if e := db.DeleteDownload(id); e != nil {
+		return c.JSON(http.StatusInternalServerError, nil)
+	}
+
+	return c.JSON(http.StatusOK, nil)
+}

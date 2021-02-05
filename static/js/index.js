@@ -27,9 +27,9 @@ Vue.component('comic-list', {
           <li>{{ info.pages }} P</li>
           <li>{{ info.year }}</li>
         </ul>
-        <div class="download"><a :href = "'https://florenfile.com/' + info.download_url" title = "download" > Download </a></div>
-        <div class="favorite">♥</div>
-        <div class="downloaded">⇊</div>
+        <div class="download"><a :href = "'https://florenfile.com/' + info.download_url" title = "download" >Download</a></div>
+        <div class="favorite" :class="{'enable': info.favorite}" @click="toggleFavorite(info)" @click.stop="">♥</div>
+        <div class="downloaded" :class="{'enable': info.download}" @click="toggleDownload(info)" @click.stop="">⇊</div>
       </div>
     </li>
   </ul>
@@ -40,7 +40,41 @@ Vue.component('comic-list', {
     }
   },
   methods: {
-    go: (targetUrl => window.location.href = targetUrl)
+    go: (targetUrl => window.location.href = targetUrl),
+    toggleFavorite: function (info) {
+      op = ''
+      url = '/api/comic/favorite/' + String(info.id)
+      if (info.favorite) {
+        op = 'DELETE'
+      } else {
+        op = 'POST'
+      }
+      fetch(url, {
+          method: op
+        })
+        .then(response => response.json())
+        .then(data => {
+          info.favorite = !info.favorite
+        })
+        .catch(error => console.log(error));
+    },
+    toggleDownload: function (info) {
+      op = ''
+      url = '/api/comic/download/' + String(info.id)
+      if (info.download) {
+        op = 'DELETE'
+      } else {
+        op = 'POST'
+      }
+      fetch(url, {
+          method: op
+        })
+        .then(response => response.json())
+        .then(data => {
+          info.download = !info.download
+        })
+        .catch(error => console.log(error));
+    }
   }
 })
 

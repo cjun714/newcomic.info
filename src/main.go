@@ -33,6 +33,8 @@ func main() {
 	g.GET("/comic/:id", api.GetComicDetail)
 	g.POST("/comic/favorite/:id", api.AddFavorite)
 	g.DELETE("/comic/favorite/:id", api.DeleteFavorite)
+	g.POST("/comic/download/:id", api.AddDownload)
+	g.DELETE("/comic/download/:id", api.DeleteDownload)
 
 	startServer(ec, ":8080")
 }

@@ -21,21 +21,25 @@ func GetComicCount() (int, error) {
 }
 
 func AddFavorite(id int) error {
-	info := &model.ComicInfo{ID: id}
-	count := 0
-	e := dbs.Model(info).Update("favorite", true).Count(&count).Error
-
-	if count == 0 {
-		return errors.New("no record with id:" + strconv.Itoa(id))
-	}
-
-	return e
+	return updateComicInfo(id, "favorite", true)
 }
 
 func DeleteFavorite(id int) error {
+	return updateComicInfo(id, "favorite", false)
+}
+
+func AddDownload(id int) error {
+	return updateComicInfo(id, "download", true)
+}
+
+func DeleteDownload(id int) error {
+	return updateComicInfo(id, "download", false)
+}
+
+func updateComicInfo(id int, field string, val interface{}) error {
 	info := &model.ComicInfo{ID: id}
 	count := 0
-	e := dbs.Model(info).Update("favorite", false).Count(&count).Error
+	e := dbs.Model(info).Update(field, val).Count(&count).Error
 
 	if count == 0 {
 		return errors.New("no record with id:" + strconv.Itoa(id))
