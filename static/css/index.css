@@ -147,14 +147,54 @@
 }
 
 .overlay .download:hover {
-  /* padding-top: 1px;
-  padding-bottom: 2px;
-  padding-left: 9px;
-  padding-right: 11px; */
-  background: linear-gradient(to bottom, #44444488, rgba(0, 0, 0, 1.0));
+  /* padding-top: 1px; */
+  /* padding-bottom: 2px; */
+  /* padding-left: 9px; */
+  /* padding-right: 11px; */
+  background: linear-gradient(to bottom, #444444aa, rgba(0, 0, 0, 1.0));
 }
 
 .overlay .download a {
   color: #ffffff;
   text-decoration: none;
+}
+
+.overlay .favorite {
+  padding-right: 4px;
+  padding-bottom: 1px;
+  font-size: 30px;
+  position: absolute;
+  right: 0%;
+  top: 100%;
+  transform: translate(-0%, -100%);
+  display: none;
+}
+
+.overlay:hover .favorite {
+  display: block;
+}
+
+.overlay .favorite:hover {
+  font-size: 33px;
+  /* color: red; */
+}
+
+.overlay .downloaded {
+  padding-left: 4px;
+  padding-bottom: 2px;
+  font-size: 25px;
+  position: absolute;
+  left: 0%;
+  top: 100%;
+  transform: translate(-0%, -100%);
+  display: none;
+}
+
+.overlay:hover .downloaded {
+  display: block;
+}
+
+.overlay .downloaded:hover {
+  font-size: 28px;
+  /* color: greenyellow; */
 }

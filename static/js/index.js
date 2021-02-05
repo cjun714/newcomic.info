@@ -28,6 +28,8 @@ Vue.component('comic-list', {
           <li>{{ info.year }}</li>
         </ul>
         <div class="download"><a :href = "'https://florenfile.com/' + info.download_url" title = "download" > Download </a></div>
+        <div class="favorite">♥</div>
+        <div class="downloaded">⇊</div>
       </div>
     </li>
   </ul>
