@@ -125,6 +125,14 @@
   display: none;
 }
 
+.overlay.download {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.overlay.download:hover {
+  background-color: rgb(0, 0, 0, 0.6);
+}
+
 .overlay .download {
   position: absolute;
   left: 50%;
@@ -172,9 +180,9 @@
 }
 
 .overlay .favorite.enable {
-  color: red;
+  color: white;
   display: block;
-  background-color: #000000ee;
+  background-color: red;
   border-radius: 4px;
 }
 
@@ -200,9 +208,9 @@
 }
 
 .overlay .downloaded.enable {
-  color: greenyellow;
+  color: black;
   display: block;
-  background-color: #000000ee;
+  background-color: greenyellow;
   border-radius: 4px;
 }
 

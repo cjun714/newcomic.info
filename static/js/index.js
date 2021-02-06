@@ -19,7 +19,7 @@ Vue.component('comic-list', {
   template: `
   <ul class="comic-list">
     <li class="comic" v-for="info in comics" class="comic" :style="{backgroundImage:'url(/image/'+info.cover+')'}">
-      <div class="overlay" @click="window.location.href = '/page/comic.html?id='+info.id">
+      <div class="overlay" :class="{'download': info.download}" @click="window.location.href = '/page/comic.html?id='+info.id">
         <h3 @click.stop="">{{ info.name }}</h3>
         <ul>
           <li class="size">{{ info.size }} M</li>
@@ -27,7 +27,7 @@ Vue.component('comic-list', {
           <li>{{ info.pages }} P</li>
           <li>{{ info.year }}</li>
         </ul>
-        <div class="download"><a :href = "'https://florenfile.com/' + info.download_url" title = "download" >Download</a></div>
+        <div class="download" @click.stop=""><a :href = "'https://florenfile.com/' + info.download_url" title = "download" target="_blank">Download</a></div>
         <div class="favorite" :class="{'enable': info.favorite}" @click="toggleFavorite(info)" @click.stop="">♥</div>
         <div class="downloaded" :class="{'enable': info.download}" @click="toggleDownload(info)" @click.stop="">⇊</div>
       </div>
