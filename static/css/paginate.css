@@ -1,6 +1,12 @@
  ul .pagination {
-   float: left;
+   max-width: 400px;
+   width: 400px;
+   float: right;
    width: 100vw;
+   position: absolute;
+   right: 0%;
+   top: 100%;
+   transform: translate(-0%, -100%)
  }
 
  .pagination li {

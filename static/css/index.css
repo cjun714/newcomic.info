@@ -226,3 +226,14 @@
   font-size: 28px;
   /* color: greenyellow; */
 }
+
+.go {
+  position: absolute;
+  right: 0%;
+  top: 100%;
+  transform: translate(-0%, -100%)
+}
+
+.go input {
+  max-width: 10px;
+}

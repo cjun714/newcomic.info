@@ -6,16 +6,16 @@ if (idx != null) {
   currentPage = Number(idx)
 }
 
-search = ""
+search = "woman"
 search = "?search=" + search
 fetch('/api/comics/' + String(currentPage) + search)
   .then(response => response.json())
   .then(data => {
     v.$refs.list.comics = data.data
-    pageCount = Math.round(data.count / 40)
-    if (pageCount == 0) {
-      pageCount = 1
-    }
+    pageCount = Math.round(data.count / 40 + 0.5)
+    // if (pageCount == 0) {
+    // pageCount = 1
+    // }
     v.$refs.index.pageCount = pageCount
   })
   .catch(error => console.log(error));
@@ -103,6 +103,20 @@ Vue.component('index', {
     clickCallback: function (p) {
       window.location.href = '/page/index.html' + '?page=' + p
     }
+  }
+})
+
+
+Vue.component('gopage', {
+  template: `
+  <div class="go">
+    <input class="go-input" type="text" id="fname" name="page">
+    <label for="page">/60</label>
+  </div>
+  `,
+  data: function () {},
+  methods: {
+
   }
 })
 
