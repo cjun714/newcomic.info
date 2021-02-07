@@ -7,16 +7,28 @@ import (
 	"newcomic.info/model"
 )
 
-func GetComicInfoList(offset, limit int) ([]model.ComicInfo, error) {
+func GetComicInfoList(offset, limit int, search string) ([]model.ComicInfo, error) {
 	var list []model.ComicInfo
-	e := dbs.Limit(limit).Offset(offset).Find(&list).Error
+	var e error
+	if search == "" {
+		e = dbs.Limit(limit).Offset(offset).Find(&list).Error
+	} else {
+		search = "%" + search + "%"
+		e = dbs.Where("name like ?", search).Limit(limit).Offset(offset).Find(&list).Error
+	}
 
 	return list, e
 }
 
-func GetComicCount() (int, error) {
+func GetComicCount(search string) (int, error) {
 	count := 0
-	e := dbs.Model(&model.ComicInfo{}).Count(&count).Error
+	var e error
+	if search == "" {
+		e = dbs.Model(&model.ComicInfo{}).Count(&count).Error
+	} else {
+		search = "%" + search + "%"
+		e = dbs.Model(&model.ComicInfo{}).Where("name like ?", search).Count(&count).Error
+	}
 	return count, e
 }
 

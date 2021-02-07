@@ -6,11 +6,16 @@ if (idx != null) {
   currentPage = Number(idx)
 }
 
-fetch('/api/comics/' + String(currentPage))
+search = ""
+search = "?search=" + search
+fetch('/api/comics/' + String(currentPage) + search)
   .then(response => response.json())
   .then(data => {
     v.$refs.list.comics = data.data
     pageCount = Math.round(data.count / 40)
+    if (pageCount == 0) {
+      pageCount = 1
+    }
     v.$refs.index.pageCount = pageCount
   })
   .catch(error => console.log(error));
@@ -19,15 +24,16 @@ Vue.component('comic-list', {
   template: `
   <ul class="comic-list">
     <li class="comic" v-for="info in comics" class="comic" :style="{backgroundImage:'url(/image/'+info.cover+')'}">
-      <div class="overlay" :class="{'download': info.download}" @click="window.location.href = '/page/comic.html?id='+info.id">
+      <div class="overlay" :class="{'download': info.download, 'bigsize': info.size > 100}" @click="window.location.href = '/page/comic.html?id='+info.id">
         <h3 @click.stop="">{{ info.name }}</h3>
         <ul>
-          <li class="size">{{ info.size }} M</li>
+          <li class="size" >{{ info.size }} M</li>
           <li>{{ info.size }} Mb</li>
           <li>{{ info.pages }} P</li>
           <li>{{ info.year }}</li>
+          <li>{{ info.publisher }}</li>
         </ul>
-        <div class="download" @click.stop=""><a :href = "'https://florenfile.com/' + info.download_url" title = "download" target="_blank">Download</a></div>
+        <div class="download" @click="toggleDownload(info)" @click.stop=""><a :href = "'https://florenfile.com/' + info.download_url" title = "download" target="_blank">Download</a></div>
         <div class="favorite" :class="{'enable': info.favorite}" @click="toggleFavorite(info)" @click.stop="">♥</div>
         <div class="downloaded" :class="{'enable': info.download}" @click="toggleDownload(info)" @click.stop="">⇊</div>
       </div>

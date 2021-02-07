@@ -33,7 +33,7 @@
       <li>Publisher: {{comic.publisher}}</li>
       <li>Year: {{comic.year}}</li>
       <li>Pages: {{comic.pages}}</li>
-      <li>Size: {{comic.size}}</li>
+      <li>Size: {{comic.size}} Mb</li>
     </ul>
     <a class="link" :href="'https://florenfile.com/'+comic.download_url">Download</a>
   </div>
@@ -65,6 +65,7 @@
   function handleKeydown(e) {
     switch (e.keyCode) {
       case 37: // <-
+        history.back(-1)
         break
       case 39: // ->
         break;
