@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script src="/js/3rd/vue@2.6.12.js"></script>
+  <script src="/js/3rd/vuejs-paginate@2.1.0.js"></script>
+  <script src="/js/index2.js"></script>
+
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/paginate.css">
+  <link rel="stylesheet" href="/css/index.css">
+
+  <title>Document</title>
+</head>
+
+<body>
+
+  <div id="wrapper">
+    <!-- <comic-list></comic-list> -->
+    <div class="list"></div>
+    <div class="foot">
+      <div class="search"></div>
+      <div class="paginate">
+        <index></index>
+        <input type="text">
+      </div>
+      <div class="about"></div>
+    </div>
+  </div>
+
+</body>
+
+</html>
+<style>
+  #wrapper {
+    display: grid;
+    grid-template-rows: 7fr 0.2fr;
+  }
+
+  .foot {
+    grid-auto-rows: 100px;
+    background-color: bisque;
+  }
+</style>
+<script>
+  Vue.component('paginate', VuejsPaginate)
+
+  Vue.component('index', {
+    template: `
+    <paginate :pageCount="2400" :page-range="10" :margin-pages="1" :containerClass="'pagination'" :clickHandler="clickCallback"></paginate>
+  `,
+    data: function () {
+      return {
+        // pageCount: 0,
+        // page: currentPage
+      }
+    },
+    created: function () {
+      // v.$refs.index.page = 3
+    },
+    methods: {
+      clickCallback: function (p) {
+        // window.location.href = '/page/index.html' + '?page=' + p
+      }
+    }
+  })
+
+
+  v = new Vue({
+    el: '#main',
+    beforeMount() {
+      // window.addEventListener('keydown', handleKeydown, null);
+    },
+    beforeDestroy() {
+      // window.removeEventListener('keydown', handleKeydown);
+    }
+  })
+</script>

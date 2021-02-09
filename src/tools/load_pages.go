@@ -94,7 +94,7 @@ func parseIndexPage(path string) ([]model.ComicInfo, error) {
 				log.E(e)
 				return
 			}
-			mi.URL = filepath.Base(url)
+			mi.PageURL = filepath.Base(url)
 			mi.Pages = d.pages
 			mi.Year = d.year
 			mi.Size = d.size
@@ -105,6 +105,8 @@ func parseIndexPage(path string) ([]model.ComicInfo, error) {
 		// img
 		imgURL, _ := s.Find("img").Attr("src")
 		mi.Cover = filepath.Base(imgURL)
+		mi.Cover = strings.Replace(mi.Cover, ".jpg", ".webp", -1)
+		mi.Cover = strings.Replace(mi.Cover, ".jpeg", ".webp", -1)
 
 		infoList = append(infoList, mi)
 	})

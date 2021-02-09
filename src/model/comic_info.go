@@ -4,7 +4,7 @@ type ComicInfo struct {
 	ID          int    `json:"id"`
 	Name        string `json:"name"`
 	Cover       string `json:"cover"`
-	URL         string `json:"url"`
+	PageURL     string `json:"page_url"`
 	DownloadURL string `json:"download_url"`
 	Tags        string `json:"tags"`
 	Publisher   string `json:"publisher"`
@@ -13,4 +13,5 @@ type ComicInfo struct {
 	Size        int    `json:"size"`
 	Download    bool   `json:"download"`
 	Favorite    bool   `json:"favorite"`
+	Delete      bool   `json:"delete"`
 }

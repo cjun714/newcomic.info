@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script src="/js/3rd/vue@2.6.12.js"></script>
+  <link rel="stylesheet" href="/css/global.css">
+
+  <title>Document</title>
+</head>
+
+<body>
+
+  <div class="container" id="main">
+    <div class="content">
+      <comic-list ref="list"></comic-list>
+    </div>
+    <div class="foot">
+      <div class="nav-area">
+        <nav>
+          <a href="/page/index.html">INDEX</a> |
+          <a href="/page/">FAVORITE</a> |
+          <a href="/page/">TAG</a> |
+        </nav>
+      </div>
+      <div class="paginate"></div>
+      <div class="search-area">
+        <div class="search">
+          <input type="text" class="search-input" fnmae="search">
+          <label for="search">🔍</label>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+
+</html>
+
+
+
+<script>
+  search = ""
+  search = "?search=" + search
+  fetch('/api/comics/' + String(1) + search)
+    .then(response => response.json())
+    .then(data => {
+      v.$refs.list.comics = data.data
+    })
+    .catch(error => console.log(error));
+
+  // <img :src="'/image/'+info.cover">
+  Vue.component('comic-list', {
+    template: `
+    <ul class="comic-list">
+      <li class="comic" v-for="info in comics"
+      :style="{backgroundImage:'url(/image/'+info.cover+')'}">
+        <a href="#">
+          <div class="overlay">
+            <h3>{{info.name}}</h3>
+          </div>
+        </a>
+      </li>
+    </ul>
+  `,
+    data: function() {
+      return {
+        comics: [],
+      }
+    },
+    methods: {
+
+    }
+  })
+
+  v = new Vue({
+    el: '#main',
+    beforeMount() {
+      // window.addEventListener('keydown', handleKeydown, null);
+    },
+    beforeDestroy() {
+      // window.removeEventListener('keydown', handleKeydown);
+    }
+  })
+</script>
+
+<style>
+  .container {
+    /* max-width: 100vw; */
+    height: 100vh;
+    /* max-height: 100vh; */
+    display: grid;
+    grid-template-rows: 1fr auto;
+  }
+
+  .content {
+    background: #fff;
+  }
+
+  .content .comic-list {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    /* grid-template-rows: repeat(4, 25vh); */
+    /* grid-auto-rows: auto-fill; */
+    grid-auto-rows: 23.2vh;
+    grid-gap: 10px;
+    /* grid-column-gap: 0.1vw; */
+    /* grid-row-gap: 1vh; */
+    width: 100%;
+    height: 100%;
+  }
+
+  .content .comic-list .comic {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    background: #efefef;
+    background-repeat: no-repeat;
+    background-size: 100%;
+  }
+
+  .content .comic-list .comic:hover {
+    background-size: 110%;
+    background-position: -12px -12px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+  }
+
+  .content .comic-list .comic .overlay {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top left, transparent 50%, #ffffff 0) top left/35px 35px no-repeat, #00000000;
+    /* display: none; */
+  }
+
+  .content .comic-list .comic:hover .overlay {
+    background: #00000088;
+    display: block;
+  }
+
+
+  .content .comic-list .comic .overlay h3 {
+    font-size: 1.2vh;
+    padding: 4px;
+    color: #000;
+    font-weight: bold;
+    background: #fff;
+    display: none;
+  }
+
+  .foot {
+    display: grid;
+    grid-template-columns: 20% 60% 20%;
+    grid-auto-rows: 4vh;
+    background: #888;
+  }
+
+  .foot .nav-area {
+    display: grid;
+    background: #aaa;
+  }
+
+  .foot .nav-area nav {
+    align-self: center;
+    justify-self: center;
+  }
+
+  .foot .search-area {
+    display: grid;
+    background: #666;
+  }
+
+  .foot .search {
+    align-self: center;
+    justify-self: center;
+  }
+
+  .foot .search-input {
+    width: 200px;
+  }
+
+  .foot .index {
+    background: #ddd;
+  }
+</style>

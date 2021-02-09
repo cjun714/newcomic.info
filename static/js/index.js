@@ -6,7 +6,7 @@ if (idx != null) {
   currentPage = Number(idx)
 }
 
-search = "woman"
+search = ""
 search = "?search=" + search
 fetch('/api/comics/' + String(currentPage) + search)
   .then(response => response.json())
@@ -23,7 +23,7 @@ fetch('/api/comics/' + String(currentPage) + search)
 Vue.component('comic-list', {
   template: `
   <ul class="comic-list">
-    <li class="comic" v-for="info in comics" class="comic" :style="{backgroundImage:'url(/image/'+info.cover+')'}">
+    <li class="comic" v-for="info in comics" :style="{backgroundImage:'url(/image/'+info.cover+')'}">
       <div class="overlay" :class="{'download': info.download, 'bigsize': info.size > 100}" @click="window.location.href = '/page/comic.html?id='+info.id">
         <h3 @click.stop="">{{ info.name }}</h3>
         <ul>
