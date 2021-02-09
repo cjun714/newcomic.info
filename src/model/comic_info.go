@@ -2,7 +2,7 @@ package model
 
 type ComicInfo struct {
 	ID          int    `json:"id"`
-	Name        string `json:"name"`
+	Name        string `json:"name""`
 	Cover       string `json:"cover"`
 	PageURL     string `json:"page_url"`
 	DownloadURL string `json:"download_url"`
@@ -11,7 +11,7 @@ type ComicInfo struct {
 	Year        int    `json:"year"`
 	Pages       int    `json:"pages"`
 	Size        int    `json:"size"`
-	Download    bool   `json:"download"`
-	Favorite    bool   `json:"favorite"`
-	Delete      bool   `json:"delete"`
+	Download    bool   `json:"download" gorm:"index"`
+	Favorite    bool   `json:"favorite" gorm:"index"`
+	Delete      bool   `json:"delete" gorm:"index"`
 }
