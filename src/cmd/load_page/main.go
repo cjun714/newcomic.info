@@ -157,7 +157,14 @@ func loadDetailPage(path string) (*comicDetail, error) {
 	doc.Find(".newcomic-m-buttons a").Each(func(i int, s *goquery.Selection) {
 		if i == 0 {
 			url, _ := s.Attr("href")
-			detail.downloadURL = filepath.Base(url)
+			bname := filepath.Base(url)
+			// handle name like 'https://florenfile.com/qsksoscx6ru9/somebook.cbr.html'
+			if strings.HasSuffix(url, ".html") {
+				url = strings.Trim(url, bname)
+				detail.downloadURL = filepath.Base(url)
+			} else {
+				detail.downloadURL = bname
+			}
 		}
 	})
 

@@ -59,6 +59,10 @@
     currentPage = Number(idx)
   }
 
+  // search = "Belladonna"
+  // search = "lady killer"
+  // search = "her night"
+  // search = "Aquaman"
   search = ""
   search = "?search=" + search
   fetch('/api/comics/' + String(currentPage) + search)

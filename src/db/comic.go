@@ -59,3 +59,9 @@ func updateComicInfo(id int, field string, val interface{}) error {
 
 	return e
 }
+
+func SearchComic(field string, value interface{}) ([]model.ComicInfo, error) {
+	var list []model.ComicInfo
+	e := dbs.Where(field+"= ?", value).Find(&list).Error
+	return list, e
+}
