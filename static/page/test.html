@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="/css/paginate.css">
   <link rel="shortcut icon" href="#" />
 
-  <title>Document</title>
+  <title>Index</title>
 </head>
 
 <body>
@@ -87,7 +87,7 @@
           </div>
           <div class="comic-info">
             <h3 class="title" @click.prevent="">{{info.name}}</h3>
-            <a :href="'/page/comic.html?id='+info.id">
+            <a :href="'/page/comic.html?id='+info.id" target="_blank">
             <div class="info-div">
               <ul>
                 <li>{{info.size}} Mb</li>
