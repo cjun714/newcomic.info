@@ -20,6 +20,7 @@ func main() {
 	if e := db.Init(); e != nil {
 		panic(e)
 	}
+	defer db.Close()
 
 	e := loadPages(os.Args[1])
 	if e != nil {

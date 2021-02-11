@@ -22,7 +22,7 @@ func Init() error {
 	}
 
 	var e error
-	if e = openDB("sqlite3", "../data.db"); e != nil {
+	if e = openDB("sqlite3", "./data.db"); e != nil {
 		return e
 	}
 

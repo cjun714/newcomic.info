@@ -47,6 +47,7 @@ src.exe
 # OS generated files
 .DS_Store*
 *.db
+*.db-journal
 Icon?
 Thumbs.db
 

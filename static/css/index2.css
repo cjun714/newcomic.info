@@ -166,11 +166,11 @@
   font-size: 1.2vw;
   font-weight: bold;
   border: solid #222222 1px;
-  background: linear-gradient(to bottom, #bbbbbb66, rgba(0, 0, 0, 0.8));
+  background: linear-gradient(to bottom, #444444aa, rgba(0, 0, 0, 1.0));
 }
 
 .content .comic-list .comic .comic-info .download:hover {
-  background: linear-gradient(to bottom, #444444aa, rgba(0, 0, 0, 1.0));
+  background: linear-gradient(to bottom, #bbbbbb66, rgba(0, 0, 0, 0.8));
 }
 
 .content .comic-list .comic .comic-info .download a {

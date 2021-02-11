@@ -33,8 +33,8 @@
         <div class="paginate-wrapper">
           <pages ref="index"></pages>
           <div class="go-div">
-            <input type="text" class="go-input" fname="go">
-            <label for="go">GO</label>
+            <input type="text" id="go" class="go-input" fname="go" @keyup.enter="goPage">
+            <label for="go">go</label>
           </div>
         </div>
       </div>
@@ -97,11 +97,11 @@
               </ul>
               <div class="tags"></div>
             </div>
-            <div class="download">
-              <a :href = "'https://florenfile.com/' + info.download_url" title = "download" target="_blank">Download</a>
+            <div class="download" @click="clickDownload(info)">
+              <a :href="'https://florenfile.com/' + info.download_url" title="download" target=" _blank">Download</a>
             </div>
             <div class="downloaded" :class="{'active':info.download}"
-             @click="toggleDownload(info)" @click.prevent="">⇓️️</div>
+             @click="toggleDownloaded(info)" @click.prevent="">⇓️️</div>
             <div class="favorite" :class="{'active':info.favorite}"
              @click="toggleFavorite(info)" @click.prevent="">♥</div>
             </a>
@@ -116,7 +116,21 @@
       }
     },
     methods: {
-      toggleDownload: function(info) {
+      clickDownload: function(info) {
+        if (info.download) {
+          return
+        }
+        url = '/api/comic/download/' + String(info.id)
+        fetch(url, {
+            method: "POST"
+          })
+          .then(response => response.json())
+          .then(data => {
+            info.download = true
+          })
+          .catch(error => console.log(error));
+      },
+      toggleDownloaded: function(info) {
         op = ''
         url = '/api/comic/download/' + String(info.id)
         if (info.download) {
@@ -207,5 +221,14 @@
         window.location.href = '/page/test.html' + '?page=' + String(currentPage + 1)
         break;
     }
+  }
+
+  function goPage() {
+    page = Number(document.getElementById("go").value)
+    if (page > pageCount) {
+      alert("page shouled less than " + pageCount)
+      return
+    }
+    window.location.href = '/page/test.html' + '?page=' + String(page)
   }
 </script>
