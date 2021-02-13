@@ -41,7 +41,7 @@ func openDB(db, url string) error {
 
 	dbs.Exec("PRAGMA foreign_keys = ON") // only for Sqlite3
 
-	dbs.LogMode(false)
+	dbs.LogMode(true)
 	dbs.DB().SetMaxIdleConns(10)
 	dbs.DB().SetMaxOpenConns(100)
 	dbs.SingularTable(true)

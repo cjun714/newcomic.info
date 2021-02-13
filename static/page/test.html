@@ -40,7 +40,7 @@
       </div>
       <div class="search-area">
         <div class="search">
-          <input type="text" class="search-input" fnmae="search">
+          <input type="text" id="search" class="search-input" @keyup.enter="goSearch">
           <label for="search">🔍</label>
         </div>
       </div>
@@ -59,13 +59,22 @@
     currentPage = Number(idx)
   }
 
-  // search = "Belladonna"
+  search = getParameters()["search"]
+  if (search != null) {
+    document.title = decodeURI(search)
+    // document.getElementById("search").value = decodeURI(search)
+    document.getElementById("search").value = 'xxxxxxxx'
+    search = "search=" + search
+  } else {
+    search = ""
+  }
   // search = "lady killer"
   // search = "her night"
   // search = "Aquaman"
-  search = ""
-  search = "?search=" + search
-  fetch('/api/comics/' + String(currentPage) + search)
+  // search = "catwoman"
+  // search = "wonder woman #"
+  // search = "justice league Dark#"
+  fetch('/api/comics/' + String(currentPage) + "?" + search)
     .then(response => response.json())
     .then(data => {
       v.$refs.list.comics = data.data
@@ -183,7 +192,7 @@
     },
     methods: {
       clickCallback: function(p) {
-        window.location.href = '/page/test.html' + '?page=' + p
+        window.location.href = '/page/test.html' + '?page=' + p + "&" + search
       }
     }
   })
@@ -212,13 +221,13 @@
         if (currentPage == 1) {
           return
         }
-        window.location.href = '/page/test.html' + '?page=' + String(currentPage - 1)
+        window.location.href = '/page/test.html' + '?page=' + String(currentPage - 1) + "&" + search
         break
       case 39: // ->
         if (currentPage == pageCount) {
           return
         }
-        window.location.href = '/page/test.html' + '?page=' + String(currentPage + 1)
+        window.location.href = '/page/test.html' + '?page=' + String(currentPage + 1) + "&" + search
         break;
     }
   }
@@ -229,6 +238,12 @@
       alert("page shouled less than " + pageCount)
       return
     }
-    window.location.href = '/page/test.html' + '?page=' + String(page)
+    window.location.href = '/page/test.html' + '?page=' + String(page) + "&" + search
+  }
+
+  function goSearch() {
+    s = document.getElementById("search").value
+    // window.open('/page/test.html' + '?search=' + encodeURIComponent(s), '_blank')
+    window.location.href = '/page/test.html' + '?search=' + encodeURIComponent(s)
   }
 </script>

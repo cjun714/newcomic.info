@@ -2,6 +2,7 @@ package api
 
 import (
 	"net/http"
+	"net/url"
 	"strconv"
 
 	"github.com/labstack/echo"
@@ -24,6 +25,8 @@ func GetComicInfos(c echo.Context) error {
 	}
 
 	search := c.QueryParams().Get("search")
+	search, _ = url.QueryUnescape(search)
+	log.I(search)
 
 	list, e := db.GetComicInfoList((page-1)*pageSize, pageSize, search)
 	if e != nil {
