@@ -1,0 +1,7 @@
+.samples {
+  display: flex;
+}
+
+.samples img {
+  height: 300px;
+}

@@ -31,6 +31,7 @@ func main() {
 
 	g.GET("/comics/:page", api.GetComicInfos)
 	g.GET("/comic/:id", api.GetComicDetail)
+	g.GET("/comic/:id/samples", api.GetComicSamples)
 	g.POST("/comic/favorite/:id", api.AddFavorite)
 	g.DELETE("/comic/favorite/:id", api.DeleteFavorite)
 	g.POST("/comic/download/:id", api.AddDownload)
