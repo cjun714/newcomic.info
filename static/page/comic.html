@@ -18,41 +18,38 @@
   </div>
 </body>
 
-
-<div class='btn'>
-  this looks like a button
-</div>
-
 </html>
 
 <script>
   tmp = `
-  <div>
-    <h2>{{comic.name}}</h2>
+  <div class="comic">
     <img class="comic-cover" :src="'/image/'+comic.cover">
-    <ul>
-      <li>Publisher: {{comic.publisher}}</li>
-      <li>Year: {{comic.year}}</li>
-      <li>Pages: {{comic.pages}}</li>
-      <li>Size: {{comic.size}} Mb</li>
-    </ul>
-    <a class="link" :href="'https://florenfile.com/'+comic.download_url">Download</a>
-    <ul class='samples'>
-      <li v-for="sample in samples">
-        <img :src="'data:image/jpg;base64,' + sample">
-      </li>
-    </ul>
+    <div class="comic-detail">
+      <h2>{{comic.name}}</h2>
+      <ul class="comic-info">
+        <li>Publisher: {{comic.publisher}}</li>
+        <li>Year: {{comic.year}}</li>
+        <li>Pages: {{comic.pages}}</li>
+        <li>Size: {{comic.size}} Mb</li>
+        </ul>
+      <a class="link" :href="'https://florenfile.com/'+comic.download_url">Download</a>
+      <ul class='comic-samples'>
+        <li v-for="sample in samples">
+          <img :src="'data:image/jpg;base64,' + sample">
+        </li>
+      </ul>
+    </div>
   </div>
   `
   Vue.component('comic', {
     template: tmp,
-    data: function() {
+    data: function () {
       return {
         comic: '',
         samples: []
       }
     },
-    created: function() {
+    created: function () {
       id = 1
       idx = getParameters()["id"]
       if (idx != null) {
@@ -87,7 +84,7 @@
   function getParameters() {
     var vars = {};
     var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,
-      function(m, key, value) {
+      function (m, key, value) {
         vars[key] = value;
       });
     return vars;

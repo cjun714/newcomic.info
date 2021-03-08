@@ -33,14 +33,16 @@
         <div class="paginate-wrapper">
           <pages ref="index"></pages>
           <div class="go-div">
-            <input type="text" id="go" class="go-input" fname="go" @keyup.enter="goPage">
+            <input type="text" id="go" class="go-input" fname="go"
+              @keyup.enter="goPage">
             <label for="go">go</label>
           </div>
         </div>
       </div>
       <div class="search-area">
         <div class="search">
-          <input type="text" id="search" class="search-input" @keyup.enter="goSearch">
+          <input type="text" id="search" class="search-input"
+            @keyup.enter="goSearch">
           <label for="search">🔍</label>
         </div>
       </div>
@@ -192,7 +194,8 @@
     },
     methods: {
       clickCallback: function(p) {
-        window.location.href = '/page/test.html' + '?page=' + p + "&" + search
+        window.location.href = '/page/test.html' + '?page=' + p + "&" +
+          search
       }
     }
   })
@@ -209,9 +212,10 @@
 
   function getParameters() {
     var vars = {};
-    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
-      vars[key] = value;
-    });
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,
+      function(m, key, value) {
+        vars[key] = value;
+      });
     return vars;
   }
 
@@ -221,13 +225,15 @@
         if (currentPage == 1) {
           return
         }
-        window.location.href = '/page/test.html' + '?page=' + String(currentPage - 1) + "&" + search
+        window.location.href = '/page/test.html' + '?page=' + String(
+          currentPage - 1) + "&" + search
         break
       case 39: // ->
         if (currentPage == pageCount) {
           return
         }
-        window.location.href = '/page/test.html' + '?page=' + String(currentPage + 1) + "&" + search
+        window.location.href = '/page/test.html' + '?page=' + String(
+          currentPage + 1) + "&" + search
         break;
     }
   }
@@ -238,12 +244,14 @@
       alert("page shouled less than " + pageCount)
       return
     }
-    window.location.href = '/page/test.html' + '?page=' + String(page) + "&" + search
+    window.location.href = '/page/test.html' + '?page=' + String(page) + "&" +
+      search
   }
 
   function goSearch() {
     s = document.getElementById("search").value
     // window.open('/page/test.html' + '?search=' + encodeURIComponent(s), '_blank')
-    window.location.href = '/page/test.html' + '?search=' + encodeURIComponent(s)
+    window.location.href = '/page/test.html' + '?search=' + encodeURIComponent(
+      s)
   }
 </script>

@@ -1,7 +1,44 @@
-.samples {
+body {
+  width: 100%;
+  display: grid;
+  background-color: #eee;
+}
+
+.page-wrapper {
+  padding: 30px;
+  padding-top: 20px;
+  width: 70vw;
+  background-color: #fff;
+  justify-self: center;
+  align-self: center;
+}
+
+.comic {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+}
+
+.comic-cover {
+  display: grid;
+  height: 400px;
+}
+
+.comic-info {
+  padding-top: 5px;
+  padding-left: 15px;
+}
+
+.comic-info li {
+  list-style: initial;
+}
+
+.comic-samples {
+  padding-top: 5px;
   display: flex;
 }
 
-.samples img {
-  height: 300px;
+.comic-samples img {
+  padding-right: 8px;
+  height: 230px;
 }
