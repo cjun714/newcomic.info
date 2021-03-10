@@ -1,8 +1,7 @@
 package db
 
 import (
-	"log"
-
+	"github.com/cjun714/glog/log"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 
@@ -71,6 +70,6 @@ func Close() {
 	}
 
 	if e := dbs.Close(); e != nil {
-		log.Fatal("close db error:", e)
+		log.F("close db error:", e)
 	}
 }

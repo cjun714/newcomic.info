@@ -14,8 +14,8 @@ import (
 	"sync"
 
 	"github.com/PuerkitoBio/goquery"
+	"github.com/cjun714/glog/log"
 	"newcomic.info/db"
-	"newcomic.info/log"
 )
 
 func main() {

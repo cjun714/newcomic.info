@@ -2,7 +2,7 @@ package model
 
 type ComicInfo struct {
 	ID          int    `json:"id"`
-	Name        string `json:"name""`
+	Name        string `json:"name"`
 	Cover       string `json:"cover"`
 	PageURL     string `json:"page_url"`
 	DownloadURL string `json:"download_url"`

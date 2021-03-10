@@ -7,10 +7,11 @@ import (
 	"os/signal"
 	"time"
 
+	"github.com/cjun714/glog/log"
 	"github.com/labstack/echo"
+
 	"newcomic.info/api"
 	"newcomic.info/db"
-	"newcomic.info/log"
 )
 
 func main() {

@@ -2,18 +2,49 @@ package api
 
 import (
 	"encoding/base64"
+	"io/fs"
 	"net/http"
 	"net/url"
+	"path/filepath"
 	"sort"
 	"strconv"
+	"strings"
 
+	"github.com/cjun714/glog/log"
 	"github.com/gen2brain/go-unarr"
 	"github.com/labstack/echo"
 
 	"newcomic.info/db"
-	"newcomic.info/log"
 	"newcomic.info/model"
 )
+
+const comicPath = "z:/comic"
+
+var namePathMap = make(map[string]string, 2000)
+
+func init() {
+	log.I("read downloaded comic list")
+	e := filepath.Walk(comicPath, func(path string, info fs.FileInfo, err error) error {
+		if info.IsDir() {
+			return nil // skip dir
+		}
+		if !isComic(path) {
+			return nil // skip non-comic
+		}
+
+		namePathMap[filepath.Base(path)] = path
+		return nil
+	})
+
+	if e != nil {
+		log.E(e)
+	}
+}
+
+func isComic(path string) bool {
+	ext := filepath.Ext(path)
+	return ext == ".cbt" || ext == ".cbz" || ext == ".cbr"
+}
 
 func GetComicInfos(c echo.Context) error {
 	pageSize := 40
@@ -164,5 +195,23 @@ func readComicSamples(path string) ([]string, error) {
 }
 
 func getComicPath(name string, year int) string {
+	yearStr := strconv.Itoa(year)
+	// name="Batman #2"
+	// comicName = "Batman #2 (2014) (Digital) (xx.com).cbt"
+	// comicName = "Batman #02 (2014) (Digital) (xx.com).cbt"
+	for comicName, path := range namePathMap {
+		idx := strings.Index(comicName, name)
+		if idx == -1 {
+			continue
+		}
+
+		idx = strings.Index(comicName, yearStr)
+		if idx == -1 {
+			continue
+		}
+
+		return path
+	}
+
 	return ""
 }

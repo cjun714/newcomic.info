@@ -11,8 +11,9 @@ import (
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
+	"github.com/cjun714/glog/log"
+
 	"newcomic.info/db"
-	"newcomic.info/log"
 	"newcomic.info/model"
 )
 
