@@ -1,14 +1,15 @@
 body {
   width: 100%;
   display: grid;
-  background-color: #eee;
+  background-color: #fff;
 }
 
 .page-wrapper {
   padding: 30px;
   padding-top: 20px;
+  padding-bottom: 10px;
   width: 70vw;
-  background-color: #fff;
+  background-color: #eee;
   justify-self: center;
   align-self: center;
 }
@@ -31,14 +32,31 @@ body {
 
 .comic-info li {
   list-style: initial;
+  padding-top: 5px;
+}
+
+.comic-info li a {
+  padding-right: 10px;
+}
+
+strong {
+  font-weight: bold;
+}
+
+a.download {
+  display: grid;
+  padding-top: 10px;
 }
 
 .comic-samples {
-  padding-top: 5px;
   display: flex;
+  flex-wrap: wrap;
+  max-width: 100%;
+  padding-top: 20px;
 }
 
 .comic-samples img {
-  padding-right: 8px;
-  height: 230px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  height: 260px;
 }

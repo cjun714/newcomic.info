@@ -5,6 +5,7 @@ import (
 	"io/fs"
 	"net/http"
 	"net/url"
+	"os"
 	"path/filepath"
 	"sort"
 	"strconv"
@@ -23,8 +24,15 @@ const comicPath = "z:/comic"
 var namePathMap = make(map[string]string, 2000)
 
 func init() {
-	log.I("read downloaded comic list")
-	e := filepath.Walk(comicPath, func(path string, info fs.FileInfo, err error) error {
+	log.I("read downloaded comic list:", comicPath)
+
+	_, e := os.Stat(comicPath)
+	if e != nil {
+		log.E("read list failed:", e)
+		return
+	}
+
+	e = filepath.Walk(comicPath, func(path string, info fs.FileInfo, err error) error {
 		if info.IsDir() {
 			return nil // skip dir
 		}
@@ -178,8 +186,8 @@ func readComicSamples(path string) ([]string, error) {
 		return nil, e
 	}
 	sort.Strings(li)
-	ret := make([]string, 4)
-	for i := 0; i < 4; i++ {
+	ret := make([]string, 15)
+	for i := 0; i < 15; i++ {
 		log.I(li[i])
 		e = ar.EntryFor(li[i])
 		if e != nil {
@@ -189,7 +197,7 @@ func readComicSamples(path string) ([]string, error) {
 		if e != nil {
 			return nil, e
 		}
-		ret[i] = base64.StdEncoding.EncodeToString(byts)
+		ret[i] = "data:image/jpg;base64," + base64.StdEncoding.EncodeToString(byts)
 	}
 	return ret, nil
 }

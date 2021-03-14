@@ -22,34 +22,40 @@
 
 <script>
   tmp = `
+  <div>
   <div class="comic">
     <img class="comic-cover" :src="'/image/'+comic.cover">
     <div class="comic-detail">
       <h2>{{comic.name}}</h2>
       <ul class="comic-info">
-        <li>Publisher: {{comic.publisher}}</li>
+        <li><strong>Publisher<strong>: {{comic.publisher}}</li>
         <li>Year: {{comic.year}}</li>
         <li>Pages: {{comic.pages}}</li>
         <li>Size: {{comic.size}} Mb</li>
-        </ul>
-      <a class="link" :href="'https://florenfile.com/'+comic.download_url">Download</a>
+        <li>Tags: <a :href="tag" v-for="tag in comic.tags">{{tag}}</a></li>
+      </ul>
+      <a class="download" :href="'https://florenfile.com/'+comic.download_url">Download</a>
+    </div>
+    </div>
+
       <ul class='comic-samples'>
         <li v-for="sample in samples">
-          <img :src="'data:image/jpg;base64,' + sample">
+          <img :src="sample">
         </li>
       </ul>
-    </div>
+
   </div>
   `
+
   Vue.component('comic', {
     template: tmp,
-    data: function () {
+    data: function() {
       return {
         comic: '',
         samples: []
       }
     },
-    created: function () {
+    created: function() {
       id = 1
       idx = getParameters()["id"]
       if (idx != null) {
@@ -58,7 +64,11 @@
 
       fetch('/api/comic/' + String(id))
         .then(response => response.json())
-        .then(data => (this.comic = data))
+        .then(data => {
+          this.comic = data
+          this.comic.tags = this.comic.tags.split('|')
+          this.comic.tags.splice(0, 1)
+        })
         .catch(err => console.log(err));
 
       fetch('/api/comic/' + String(id) + '/samples')
@@ -84,7 +94,7 @@
   function getParameters() {
     var vars = {};
     var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,
-      function (m, key, value) {
+      function(m, key, value) {
         vars[key] = value;
       });
     return vars;
