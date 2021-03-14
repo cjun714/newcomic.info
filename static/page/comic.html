@@ -26,15 +26,15 @@
   <div class="comic">
     <img class="comic-cover" :src="'/image/'+comic.cover">
     <div class="comic-detail">
-      <h2>{{comic.name}}</h2>
+      <h1>{{comic.name}}</h1>
       <ul class="comic-info">
         <li><strong>Publisher<strong>: {{comic.publisher}}</li>
         <li>Year: {{comic.year}}</li>
         <li>Pages: {{comic.pages}}</li>
         <li>Size: {{comic.size}} Mb</li>
-        <li>Tags: <a :href="tag" v-for="tag in comic.tags">{{tag}}</a></li>
+        <li class="tags">Tags: <a :href="tag" v-for="tag in comic.tags">{{tag}}</a></li>
+        <a class="download" :href="'https://florenfile.com/'+comic.download_url">Download</a>
       </ul>
-      <a class="download" :href="'https://florenfile.com/'+comic.download_url">Download</a>
     </div>
     </div>
 
@@ -68,6 +68,7 @@
           this.comic = data
           this.comic.tags = this.comic.tags.split('|')
           this.comic.tags.splice(0, 1)
+          document.title = this.comic.name
         })
         .catch(err => console.log(err));
 
@@ -75,6 +76,7 @@
         .then(response => response.json())
         .then(data => (this.samples = data))
         .catch(err => console.log(err));
+
     },
     methods: {
       go: (targetUrl => window.location.href = targetUrl)

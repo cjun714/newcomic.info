@@ -186,8 +186,8 @@ func readComicSamples(path string) ([]string, error) {
 		return nil, e
 	}
 	sort.Strings(li)
-	ret := make([]string, 15)
-	for i := 0; i < 15; i++ {
+	ret := make([]string, 13)
+	for i := 0; i < 13; i++ {
 		log.I(li[i])
 		e = ar.EntryFor(li[i])
 		if e != nil {
