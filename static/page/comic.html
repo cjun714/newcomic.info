@@ -28,11 +28,11 @@
     <div class="comic-detail">
       <h1>{{comic.name}}</h1>
       <ul class="comic-info">
-        <li><strong>Publisher<strong>: {{comic.publisher}}</li>
-        <li>Year: {{comic.year}}</li>
-        <li>Pages: {{comic.pages}}</li>
-        <li>Size: {{comic.size}} Mb</li>
-        <li class="tags">Tags: <a :href="tag" v-for="tag in comic.tags">{{tag}}</a></li>
+        <li><strong>Publisher</strong>: {{comic.publisher}}</li>
+        <li><strong>Year</strong>: {{comic.year}}</li>
+        <li><strong>Pages</strong>: {{comic.pages}}</li>
+        <li><strong>Size</strong>: {{comic.size}} Mb</li>
+        <li class="tags"><strong>Tags</strong>: <a :href="tag" v-for="tag in comic.tags">{{tag}}</a></li>
         <a class="download" :href="'https://florenfile.com/'+comic.download_url">Download</a>
       </ul>
     </div>

@@ -1,7 +1,7 @@
 body {
   width: 100%;
   display: grid;
-  background-color: #fff;
+  background-color: #eee;
   font-size: 15px;
 }
 
@@ -10,7 +10,7 @@ body {
   padding-top: 20px;
   padding-bottom: 10px;
   width: 60vw;
-  background-color: #eee;
+  background-color: #fff;
   justify-self: center;
   align-self: center;
 }
