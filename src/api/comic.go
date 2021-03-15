@@ -83,6 +83,35 @@ func GetComicInfos(c echo.Context) error {
 	return c.JSON(http.StatusOK, map[string]interface{}{"count": count, "data": list})
 }
 
+func GetComicInfosByTag(c echo.Context) error {
+	pageSize := 40
+
+	page := 0
+	var e error
+
+	pageStr := c.Param("page")
+	if pageStr != "" {
+		if page, e = strconv.Atoi(pageStr); e != nil || page < 1 {
+			return c.JSON(http.StatusBadRequest, nil)
+		}
+	}
+
+	tag := c.QueryParams().Get("tag")
+	tag, _ = url.QueryUnescape(tag)
+	log.I(tag)
+
+	list, e := db.GetComicInfoListByTag((page-1)*pageSize, pageSize, tag)
+	if e != nil {
+		return c.JSON(http.StatusInternalServerError, nil)
+	}
+	count, e := db.GetComicCountByTag(tag)
+	if e != nil {
+		return c.JSON(http.StatusInternalServerError, nil)
+	}
+
+	return c.JSON(http.StatusOK, map[string]interface{}{"count": count, "data": list})
+}
+
 func GetComicDetail(c echo.Context) error {
 	id, e := strconv.Atoi(c.Param("id"))
 	if e != nil {

@@ -1,30 +1,250 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width" />
-  <title></title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <script src="/js/3rd/vue@2.6.12.js"></script>
   <script src="/js/3rd/vuejs-paginate@2.1.0.js"></script>
-  <script src="/js/index.js"></script>
-
   <link rel="stylesheet" href="/css/global.css">
-  <link rel="stylesheet" href="/css/paginate.css">
   <link rel="stylesheet" href="/css/index.css">
-
+  <link rel="stylesheet" href="/css/paginate.css">
   <link rel="shortcut icon" href="#" />
+
+  <title>Index</title>
 </head>
 
 <body>
-  <div class='page-wrapper' id='main'>
-    <comic-list ref="list"></comic-list>
-    <index ref="index"></index>
-    <gopage ref="gopage"></gopage>
+  <div class="container" id="main">
+    <div class="content">
+      <comic-list ref="list"></comic-list>
+    </div>
+    <div class="foot">
+      <div class="nav-area">
+        <nav>
+          <a href="/page/index.html">INDEX</a> |
+          <a href="/page/">FAVORITE</a> |
+          <a href="/page/">TAG</a> |
+        </nav>
+      </div>
+      <div class="paginate-area">
+        <div class="paginate-wrapper">
+          <pages ref="index"></pages>
+          <div class="go-div">
+            <input type="text" id="go" class="go-input" fname="go" @keyup.enter="goPage">
+            <label for="go">go</label>
+          </div>
+        </div>
+      </div>
+      <div class="search-area">
+        <div class="search">
+          <input type="text" id="search" class="search-input" @keyup.enter="goSearch">
+          <label for="search">🔍</label>
+        </div>
+      </div>
+    </div>
   </div>
 </body>
 
 </html>
 
-<script src="/js/page.js"></script>
+<script>
+  currentPage = 1
+  pageSize = 40
+
+  idx = getParameters()["page"]
+  if (idx != null) {
+    currentPage = Number(idx)
+  }
+
+  search = getParameters()["search"]
+  if (search != null) {
+    document.title = decodeURI(search)
+    // document.getElementById("search").value = decodeURI(search)
+    document.getElementById("search").value = 'xxxxxxxx'
+    search = "search=" + search
+  } else {
+    search = ""
+  }
+
+  fetch('/api/comics/' + String(currentPage) + "?" + search)
+    .then(response => response.json())
+    .then(data => {
+      v.$refs.list.comics = data.data
+      pageCount = Math.round(data.count / 40 + 0.5)
+      v.$refs.index.pageCount = pageCount
+    })
+    .catch(error => console.log(error));
+
+  Vue.component('comic-list', {
+    template: `
+    <ul class="comic-list">
+      <li class="comic" v-for="info in comics"
+      :style="{backgroundImage:'url(/image/'+info.cover+')'}">
+      <div class="overlay" :class="{'downloaded':info.download}">
+        <div class="size-corner" :class="{'bigsize-corner':info.size>=100}">
+          <lable class="size">{{info.size}} M</lable>
+          </div>
+          <div :class="{'favorite':info.favorite}"></div>
+          </div>
+          <div class="comic-info">
+            <h3 class="title" @click.prevent="">{{info.name}}</h3>
+            <a :href="'/page/comic.html?id='+info.id" target="_blank">
+            <div class="info-div">
+              <ul>
+                <li>{{info.size}} Mb</li>
+                <li>{{info.pages}} P</li>
+                <li>{{info.year}}</li>
+                <li>{{info.publisher}}</li>
+              </ul>
+              <div class="tags"></div>
+            </div>
+            <div class="download" @click="clickDownload(info)">
+              <a :href="'https://florenfile.com/' + info.download_url" title="download" target=" _blank">Download</a>
+            </div>
+            <div class="downloaded" :class="{'active':info.download}"
+             @click="toggleDownloaded(info)" @click.prevent="">⇓️️</div>
+            <div class="favorite" :class="{'active':info.favorite}"
+             @click="toggleFavorite(info)" @click.prevent="">♥</div>
+            </a>
+          <div>
+      </li>
+    </ul>
+
+    `,
+    data: function() {
+      return {
+        comics: [],
+      }
+    },
+    methods: {
+      clickDownload: function(info) {
+        if (info.download) {
+          return
+        }
+        url = '/api/comic/download/' + String(info.id)
+        fetch(url, {
+            method: "POST"
+          })
+          .then(response => response.json())
+          .then(data => {
+            info.download = true
+          })
+          .catch(error => console.log(error));
+      },
+      toggleDownloaded: function(info) {
+        op = ''
+        url = '/api/comic/download/' + String(info.id)
+        if (info.download) {
+          op = 'DELETE'
+        } else {
+          op = 'POST'
+        }
+        fetch(url, {
+            method: op
+          })
+          .then(response => response.json())
+          .then(data => {
+            info.download = !info.download
+          })
+          .catch(error => console.log(error));
+      },
+      toggleFavorite: function(info) {
+        op = ''
+        url = '/api/comic/favorite/' + String(info.id)
+        if (info.favorite) {
+          op = 'DELETE'
+        } else {
+          op = 'POST'
+        }
+        fetch(url, {
+            method: op
+          })
+          .then(response => response.json())
+          .then(data => {
+            info.favorite = !info.favorite
+          })
+          .catch(error => console.log(error));
+      },
+    }
+  })
+
+  Vue.component('paginate', VuejsPaginate)
+  Vue.component('pages', {
+    template: `
+    <paginate v-model="page" :pageCount="pageCount" :page-range="10" :margin-pages="1" :containerClass="'pagination'" :clickHandler="clickCallback"></paginate>
+  `,
+    data: function() {
+      return {
+        pageCount: 0,
+        page: currentPage
+      }
+    },
+    created: function() {
+      // v.$refs.index.page = 3
+    },
+    methods: {
+      clickCallback: function(p) {
+        window.location.href = '/page/index.html' + '?page=' + p + "&" +
+          search
+      }
+    }
+  })
+
+  v = new Vue({
+    el: '#main',
+    beforeMount() {
+      window.addEventListener('keydown', handleKeydown, null);
+    },
+    beforeDestroy() {
+      window.removeEventListener('keydown', handleKeydown);
+    }
+  })
+
+  function getParameters() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,
+      function(m, key, value) {
+        vars[key] = value;
+      });
+    return vars;
+  }
+
+  function handleKeydown(e) {
+    switch (e.keyCode) {
+      case 37: // <-
+        if (currentPage == 1) {
+          return
+        }
+        window.location.href = '/page/index.html' + '?page=' + String(
+          currentPage - 1) + "&" + search
+        break
+      case 39: // ->
+        if (currentPage == pageCount) {
+          return
+        }
+        window.location.href = '/page/index.html' + '?page=' + String(
+          currentPage + 1) + "&" + search
+        break;
+    }
+  }
+
+  function goPage() {
+    page = Number(document.getElementById("go").value)
+    if (page > pageCount) {
+      alert("page shouled less than " + pageCount)
+      return
+    }
+    window.location.href = '/page/index.html' + '?page=' + String(page) + "&" +
+      search
+  }
+
+  function goSearch() {
+    s = document.getElementById("search").value
+    // window.open('/page/test.html' + '?search=' + encodeURIComponent(s), '_blank')
+    window.location.href = '/page/index.html' + '?search=' + encodeURIComponent(
+      s)
+  }
+</script>

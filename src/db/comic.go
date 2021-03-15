@@ -32,6 +32,31 @@ func GetComicCount(search string) (int, error) {
 	return count, e
 }
 
+func GetComicInfoListByTag(offset, limit int, tag string) ([]model.ComicInfo, error) {
+	var list []model.ComicInfo
+	var e error
+	if tag == "" {
+		e = dbs.Limit(limit).Offset(offset).Find(&list).Error
+	} else {
+		tag = "%" + tag + "%"
+		e = dbs.Where("tags like ?", tag).Limit(limit).Offset(offset).Find(&list).Error
+	}
+
+	return list, e
+}
+
+func GetComicCountByTag(tag string) (int, error) {
+	count := 0
+	var e error
+	if tag == "" {
+		e = dbs.Model(&model.ComicInfo{}).Count(&count).Error
+	} else {
+		tag = "%" + tag + "%"
+		e = dbs.Model(&model.ComicInfo{}).Where("tags like ?", tag).Count(&count).Error
+	}
+	return count, e
+}
+
 func AddFavorite(id int) error {
 	return updateComicInfo(id, "favorite", true)
 }

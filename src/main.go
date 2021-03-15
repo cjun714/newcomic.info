@@ -31,6 +31,7 @@ func main() {
 	ec.Static("/image", imagePath)
 
 	g.GET("/comics/:page", api.GetComicInfos)
+	g.GET("/tags/:page", api.GetComicInfosByTag)
 	g.GET("/comic/:id", api.GetComicDetail)
 	g.GET("/comic/:id/samples", api.GetComicSamples)
 	g.POST("/comic/favorite/:id", api.AddFavorite)

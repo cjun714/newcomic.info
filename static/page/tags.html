@@ -9,7 +9,7 @@
   <script src="/js/3rd/vue@2.6.12.js"></script>
   <script src="/js/3rd/vuejs-paginate@2.1.0.js"></script>
   <link rel="stylesheet" href="/css/global.css">
-  <link rel="stylesheet" href="/css/index2.css">
+  <link rel="stylesheet" href="/css/index.css">
   <link rel="stylesheet" href="/css/paginate.css">
   <link rel="shortcut icon" href="#" />
 
@@ -33,16 +33,14 @@
         <div class="paginate-wrapper">
           <pages ref="index"></pages>
           <div class="go-div">
-            <input type="text" id="go" class="go-input" fname="go"
-              @keyup.enter="goPage">
+            <input type="text" id="go" class="go-input" fname="go" @keyup.enter="goPage">
             <label for="go">go</label>
           </div>
         </div>
       </div>
       <div class="search-area">
         <div class="search">
-          <input type="text" id="search" class="search-input"
-            @keyup.enter="goSearch">
+          <input type="text" id="search" class="search-input" @keyup.enter="goSearch">
           <label for="search">🔍</label>
         </div>
       </div>
@@ -61,22 +59,17 @@
     currentPage = Number(idx)
   }
 
-  search = getParameters()["search"]
+  search = getParameters()["tag"]
   if (search != null) {
     document.title = decodeURI(search)
     // document.getElementById("search").value = decodeURI(search)
     document.getElementById("search").value = 'xxxxxxxx'
-    search = "search=" + search
+    search = "tag=" + search
   } else {
     search = ""
   }
-  // search = "lady killer"
-  // search = "her night"
-  // search = "Aquaman"
-  // search = "catwoman"
-  // search = "wonder woman #"
-  // search = "justice league Dark#"
-  fetch('/api/comics/' + String(currentPage) + "?" + search)
+
+  fetch('/api/tags/' + String(currentPage) + "?" + search)
     .then(response => response.json())
     .then(data => {
       v.$refs.list.comics = data.data
@@ -194,7 +187,7 @@
     },
     methods: {
       clickCallback: function(p) {
-        window.location.href = '/page/test.html' + '?page=' + p + "&" +
+        window.location.href = '/page/tags.html' + '?page=' + p + "&" +
           search
       }
     }
@@ -225,14 +218,14 @@
         if (currentPage == 1) {
           return
         }
-        window.location.href = '/page/test.html' + '?page=' + String(
+        window.location.href = '/page/tags.html' + '?page=' + String(
           currentPage - 1) + "&" + search
         break
       case 39: // ->
         if (currentPage == pageCount) {
           return
         }
-        window.location.href = '/page/test.html' + '?page=' + String(
+        window.location.href = '/page/tags.html' + '?page=' + String(
           currentPage + 1) + "&" + search
         break;
     }
@@ -244,7 +237,7 @@
       alert("page shouled less than " + pageCount)
       return
     }
-    window.location.href = '/page/test.html' + '?page=' + String(page) + "&" +
+    window.location.href = '/page/tags.html' + '?page=' + String(page) + "&" +
       search
   }
 
